@@ -11,6 +11,7 @@
     <modules>
         <module>driving-common</module>
         <module>driving-transaction-manager</module>
+        <module>driving-driver</module>
     </modules>
 
     <properties>
