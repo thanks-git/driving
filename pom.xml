@@ -21,6 +21,7 @@
         <module>driving-data-service</module>
         <module>driving-mis-api</module>
         <module>driving-bff-driver</module>
+        <module>driving-bff-customer</module>
     </modules>
 
     <properties>
