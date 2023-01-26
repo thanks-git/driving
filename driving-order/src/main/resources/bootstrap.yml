@@ -18,16 +18,16 @@ spring:
       # 子系统注册到Nacos上的IP地址
       preferred-networks: 127.0.0.1
     nacos:
-      # 配置子系统在Web管理页面上的注册信息
+      #配置子系统在Web管理页面上的注册信息
       config:
-        namespace: driving-dev
+        namespace: fb11e22c-51e6-44fe-a351-c17003c85a41
         group: DEFAULT_GROUP
         file-extension: yaml
         server-addr: 192.168.126.129:8848
         prefix: ${spring.application.name}
-      # 配置子系统在Nacos上的注册信息
+      #配置子系统在Nacos上的注册信息
       discovery:
-        namespace: driving-dev
+        namespace: fb11e22c-51e6-44fe-a351-c17003c85a41
         username: nacos
         password: nacos
         server-addr: 192.168.126.129:8848

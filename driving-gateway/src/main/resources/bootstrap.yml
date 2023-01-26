@@ -16,13 +16,13 @@ spring:
     nacos:
       #配置中心
       config:
+        namespace: fb11e22c-51e6-44fe-a351-c17003c85a41
         group: DEFAULT_GROUP
         file-extension: yaml
         server-addr: 192.168.126.129:8848
         prefix: ${spring.application.name}
-        namespace: driving-dev
       discovery:
-        namespace: driving-dev
+        namespace: fb11e22c-51e6-44fe-a351-c17003c85a41
         username: nacos
         password: nacos
         server-addr: 192.168.126.129:8848
