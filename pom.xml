@@ -18,6 +18,7 @@
         <module>driving-order-execute</module>
         <module>driving-customer</module>
         <module>driving-voucher</module>
+        <module>driving-data-service</module>
     </modules>
 
     <properties>
