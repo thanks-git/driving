@@ -1,7 +1,7 @@
 package com.driving.voucher.mapper;
 
-import com.driving.customer.entity.VoucherCustomer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.driving.voucher.entity.VoucherCustomer;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
