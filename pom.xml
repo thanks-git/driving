@@ -14,6 +14,7 @@
         <module>driving-driver</module>
         <module>driving-order</module>
         <module>driving-message-notification</module>
+        <module>driving-map-service</module>
     </modules>
 
     <properties>
