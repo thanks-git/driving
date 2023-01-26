@@ -19,6 +19,7 @@
         <module>driving-customer</module>
         <module>driving-voucher</module>
         <module>driving-data-service</module>
+        <module>driving-mis-api</module>
     </modules>
 
     <properties>
