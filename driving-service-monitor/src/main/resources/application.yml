@@ -1,0 +1,26 @@
+server:
+  servlet:
+    context-path: /
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+  jetty:
+    threads:
+      acceptors: 4
+      selectors: 8
+  port: 8300
+
+# HTTP格式配置
+spring:
+  messages:
+    encoding: UTF-8
+  application:
+    name: driving-service-monitor
+  main:
+    allow-bean-definition-overriding: true
+    banner-mode: 'off'
+  security:
+    user:
+      name: yueliminvc@outlook.com
+      password: yueliminvc@outlook.com
