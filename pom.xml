@@ -17,6 +17,7 @@
         <module>driving-map-service</module>
         <module>driving-order-execute</module>
         <module>driving-customer</module>
+        <module>driving-voucher</module>
     </modules>
 
     <properties>
