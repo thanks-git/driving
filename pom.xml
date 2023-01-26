@@ -13,6 +13,7 @@
         <module>driving-transaction-manager</module>
         <module>driving-driver</module>
         <module>driving-order</module>
+        <module>driving-message-notification</module>
     </modules>
 
     <properties>
