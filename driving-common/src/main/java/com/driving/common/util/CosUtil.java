@@ -2,7 +2,7 @@ package com.driving.common.util;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
-import com.driving.common.exception.DrivingException;
+import com.driving.common.exception.BusinessException;
 
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
@@ -111,7 +111,7 @@ public class CosUtil {
             ) {
                 //删除违规图片
                 client.deleteObject(bucketPublic, path);
-                throw new DrivingException("图片内容不合规");
+                throw new BusinessException("图片内容不合规");
             }
         }
         client.shutdown();
@@ -157,7 +157,7 @@ public class CosUtil {
             ) {
                 //删除违规图片
                 client.deleteObject(bucketPrivate, path);
-                throw new DrivingException("图片内容不合规");
+                throw new BusinessException("图片内容不合规");
             }
         }
         client.shutdown();

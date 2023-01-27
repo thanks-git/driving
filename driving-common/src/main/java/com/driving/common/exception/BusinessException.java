@@ -3,27 +3,27 @@ package com.driving.common.exception;
 import lombok.Data;
 
 @Data
-public class DrivingException extends RuntimeException {
+public class BusinessException extends RuntimeException {
     private String msg;
     private int code = 500;
 
-    public DrivingException(String msg) {
+    public BusinessException(String msg) {
         super(msg);
         this.msg = msg;
     }
 
-    public DrivingException(String msg, Throwable e) {
+    public BusinessException(String msg, Throwable e) {
         super(msg, e);
         this.msg = msg;
     }
 
-    public DrivingException(String msg, int code) {
+    public BusinessException(String msg, int code) {
         super(msg);
         this.msg = msg;
         this.code = code;
     }
 
-    public DrivingException(String msg, int code, Throwable e) {
+    public BusinessException(String msg, int code, Throwable e) {
         super(msg, e);
         this.msg = msg;
         this.code = code;

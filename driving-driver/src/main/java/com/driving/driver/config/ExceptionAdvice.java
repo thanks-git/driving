@@ -1,7 +1,7 @@
 package com.driving.driver.config;
 
 import cn.hutool.json.JSONObject;
-import com.driving.common.exception.DrivingException;
+import com.driving.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -35,9 +35,9 @@ public class ExceptionAdvice {
             json.set("error", "缺少提交的数据");
         }
         // 处理业务异常
-        else if (e instanceof DrivingException) {
+        else if (e instanceof BusinessException) {
             log.error("执行异常", e);
-            DrivingException exception = (DrivingException) e;
+            BusinessException exception = (BusinessException) e;
             json.set("error", exception.getMsg());
         }
         // 处理其余的异常

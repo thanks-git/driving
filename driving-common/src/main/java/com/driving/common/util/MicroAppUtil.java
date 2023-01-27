@@ -3,7 +3,7 @@ package com.driving.common.util;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.driving.common.exception.DrivingException;
+import com.driving.common.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -47,7 +47,7 @@ public class MicroAppUtil {
             String accessToken = json.getStr("access_token");
             return accessToken;
         } else {
-            throw new DrivingException(json.getStr("errmsg"));
+            throw new BusinessException(json.getStr("errmsg"));
         }
     }
 }
