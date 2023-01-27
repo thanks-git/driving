@@ -463,7 +463,7 @@ CREATE TABLE `tb_user`  (
 -- ----------------------------
 -- Records of tb_user
 -- ----------------------------
-INSERT INTO `tb_user` VALUES (1, 'admin', 'e523a41fc563203575d9b07be9c84872', '管理员', '男', '13312345678', 'admin@163.com', '[0]', 1, 3, 1, '2022-01-29 18:44:31');
+INSERT INTO `tb_user` VALUES (1, 'admin', 'efa7ca1326ffd19acd9d9a607a28b2aa', '管理员', '男', '13312345678', 'admin@163.com', '[0]', 1, 3, 1, '2022-01-29 18:44:31');
 
 SET FOREIGN_KEY_CHECKS = 1;
 
