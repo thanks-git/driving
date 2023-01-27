@@ -1,5 +1,6 @@
 package com.driving.mis.service.impl;
 
+import com.driving.common.exception.BusinessException;
 import com.driving.common.util.PageUtils;
 import com.driving.mis.dao.DeptDao;
 import com.driving.mis.pojo.DeptEntity;
@@ -55,9 +56,8 @@ public class DeptServiceImpl implements DeptService {
     @Override
     public int deleteDeptByIds(Integer[] ids) {
         if (!deptDao.searchCanDelete(ids)) {
-            throw new HxdsException("无法删除关联用户的部门");
+            throw new BusinessException("无法删除关联用户的部门");
         }
-        int rows = deptDao.deleteDeptByIds(ids);
-        return rows;
+        return deptDao.deleteDeptByIds(ids);
     }
 }

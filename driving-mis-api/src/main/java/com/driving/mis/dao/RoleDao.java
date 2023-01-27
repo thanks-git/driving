@@ -1,10 +1,12 @@
 package com.driving.mis.dao;
 
 import com.driving.mis.pojo.RoleEntity;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@Mapper
 public interface RoleDao {
     public ArrayList<HashMap> searchAllRole();
 

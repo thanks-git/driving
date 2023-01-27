@@ -1,7 +1,7 @@
 package com.driving.mis.config;
 
 import cn.dev33.satoken.stp.StpInterface;
-import com.example.hxds.mis.api.db.dao.UserDao;
+import com.driving.mis.dao.UserDao;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

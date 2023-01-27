@@ -32,16 +32,6 @@ public class UserController {
     private UserService userService;
 
     /**
-     * 生成登陆二维码的字符串
-     */
-    @GetMapping("/createQrCode")
-    @Operation(summary = "生成二维码Base64格式的字符串")
-    public R createQrCode() {
-        HashMap map = userService.createQrCode();
-        return R.ok(map);
-    }
-
-    /**
      * 登陆成功后加载用户的基本信息
      */
     @GetMapping("/loadUserInfo")
@@ -72,12 +62,11 @@ public class UserController {
     @PostMapping("/login")
     @Operation(summary = "登陆系统")
     public R login(@Valid @RequestBody LoginForm form) {
-        Map param = BeanUtil.beanToMap(form);
+        Map<String, Object> param = BeanUtil.beanToMap(form);
         Integer userId = userService.login(param);
-        R r = R.ok().put("result", userId != null ? true : false);
+        R r = R.ok().put("result", userId != null);
         if (userId != null) {
-            StpUtil.setLoginId(userId);
-            // StpUtil.login(userId);
+            StpUtil.login(userId);
             Set<String> permissions = userService.searchUserPermissions(userId);
             String token = StpUtil.getTokenInfo().getTokenValue();
             r.put("permissions", permissions).put("token", token);
@@ -97,7 +86,7 @@ public class UserController {
     @Operation(summary = "修改密码")
     public R updatePassword(@Valid @RequestBody UpdatePasswordForm form) {
         int userId = StpUtil.getLoginIdAsInt();
-        Map param = BeanUtil.beanToMap(form);
+        Map<String, Object> param = BeanUtil.beanToMap(form);
         param.put("userId", userId);
         int rows = userService.updatePassword(param);
         return R.ok().put("rows", rows);
@@ -110,7 +99,7 @@ public class UserController {
         int page = form.getPage();
         int length = form.getLength();
         int start = (page - 1) * length;
-        Map param = BeanUtil.beanToMap(form);
+        Map<String, Object> param = BeanUtil.beanToMap(form);
         param.put("start", start);
         PageUtils pageUtils = userService.searchUserByPage(param);
         return R.ok().put("page", pageUtils);
@@ -132,7 +121,7 @@ public class UserController {
     @SaCheckPermission(value = {"ROOT", "USER:UPDATE"}, mode = SaMode.OR)
     @Operation(summary = "修改用户")
     public R update(@Valid @RequestBody UpdateUserForm form) {
-        Map param = BeanUtil.beanToMap(form);
+        Map<String, Object> param = BeanUtil.beanToMap(form);
         param.replace("role", JSONUtil.parseArray(form.getRole()).toString());
         int rows = userService.update(param);
         if (rows == 1) {

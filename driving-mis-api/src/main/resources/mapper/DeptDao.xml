@@ -56,7 +56,7 @@
         GROUP BY d.id
         ) temp
     </select>
-    <insert id="insert" parameterType="com.example.hxds.mis.api.db.pojo.DeptEntity">
+    <insert id="insert" parameterType="com.driving.mis.pojo.DeptEntity">
         INSERT INTO tb_dept
         SET dept_name=#{deptName}
         <if test="tel!=null">
@@ -69,7 +69,7 @@
             ,`desc`=#{desc}
         </if>
     </insert>
-    <update id="update" parameterType="com.example.hxds.mis.api.db.pojo.DeptEntity">
+    <update id="update" parameterType="com.driving.mis.pojo.DeptEntity">
         UPDATE tb_dept
         SET dept_name=#{deptName},
             tel=#{tel},

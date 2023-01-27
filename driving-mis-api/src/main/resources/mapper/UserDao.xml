@@ -147,7 +147,7 @@
         WHERE u.id = #{userId}
           AND u.status = 1
     </select>
-    <insert id="insert" parameterType="com.example.hxds.mis.api.db.pojo.UserEntity">
+    <insert id="insert" parameterType="com.driving.mis.pojo.UserEntity">
         INSERT INTO tb_user
         SET username = #{username},
         password = MD5(CONCAT(MD5(#{username}), #{password})),

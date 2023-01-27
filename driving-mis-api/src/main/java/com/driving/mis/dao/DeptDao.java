@@ -1,11 +1,13 @@
 package com.driving.mis.dao;
 
 import com.driving.mis.pojo.DeptEntity;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+@Mapper
 public interface DeptDao {
     public ArrayList<HashMap> searchAllDept();
 

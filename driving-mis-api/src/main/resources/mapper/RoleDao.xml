@@ -66,7 +66,7 @@
         GROUP BY r.id
         ) temp
     </select>
-    <insert id="insert" parameterType="com.example.hxds.mis.api.db.pojo.RoleEntity">
+    <insert id="insert" parameterType="com.driving.mis.pojo.RoleEntity">
         INSERT INTO tb_role
         SET role_name=#{roleName},
         permissions=#{permissions}
@@ -74,7 +74,7 @@
             ,`desc`=#{desc}
         </if>
     </insert>
-    <update id="update" parameterType="com.example.hxds.mis.api.db.pojo.RoleEntity">
+    <update id="update" parameterType="com.driving.mis.pojo.RoleEntity">
         UPDATE tb_role
         SET role_name=#{roleName},
             `desc`=#{desc},

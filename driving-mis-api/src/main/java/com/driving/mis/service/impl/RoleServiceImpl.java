@@ -1,5 +1,6 @@
 package com.driving.mis.service.impl;
 
+import com.driving.common.exception.BusinessException;
 import com.driving.common.util.PageUtils;
 import com.driving.mis.dao.RoleDao;
 import com.driving.mis.pojo.RoleEntity;
@@ -49,8 +50,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public ArrayList<Integer> searchUserIdByRoleId(int roleId) {
-        ArrayList<Integer> list = roleDao.searchUserIdByRoleId(roleId);
-        return list;
+        return roleDao.searchUserIdByRoleId(roleId);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public int deleteRoleByIds(Integer[] ids) {
         if (!roleDao.searchCanDelete(ids)) {
-            throw new HxdsException("无法删除关联用户的角色");
+            throw new BusinessException("无法删除关联用户的角色");
         }
         int rows = roleDao.deleteRoleByIds(ids);
         return rows;

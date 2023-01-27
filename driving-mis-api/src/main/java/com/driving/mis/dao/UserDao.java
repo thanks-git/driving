@@ -1,12 +1,14 @@
 package com.driving.mis.dao;
 
 import com.driving.mis.pojo.UserEntity;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+@Mapper
 public interface UserDao {
     public Set<String> searchUserPermissions(int userId);
 
