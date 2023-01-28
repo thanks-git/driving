@@ -41,3 +41,9 @@ module.exports = {
 // 后端项目的URL根路径
 let baseUrl = "http://127.0.0.1:8200/mis/"
 ```
+
+## 登录
+
+用户名: admin
+
+默认密码: admin123
