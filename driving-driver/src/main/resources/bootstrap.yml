@@ -3,9 +3,13 @@ server:
     threads:
       acceptors: 4
       selectors: 8
-  port: 8001
   servlet:
     context-path: /
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+  port: 8001
 
 spring:
   profiles:
