@@ -8,6 +8,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * @author YueLiMin
+ */
 @OpenAPIDefinition(info = @Info(title = "driving-bff-driver", description = "华夏代驾司机端BFF", version = "1.0.0"), security = @SecurityRequirement(name = "token"))
 @SecurityScheme(name = "token", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER, bearerFormat = "JWT", scheme = "bearer")
 @Configuration
