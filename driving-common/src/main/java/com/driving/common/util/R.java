@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * @author Administrator
+ */
 public class R extends HashMap<String, Object> {
 
     public R() {

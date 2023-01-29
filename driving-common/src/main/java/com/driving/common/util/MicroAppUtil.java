@@ -9,6 +9,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 
+/**
+ * 微信小程序工具类
+ * <p>获取授权</p>
+ *
+ * @author Administrator
+ */
 @Component("MicroAppUtil")
 public class MicroAppUtil {
 
@@ -20,7 +26,7 @@ public class MicroAppUtil {
 
     public String getOpenId(String code) {
         String url = "https://api.weixin.qq.com/sns/jscode2session";
-        HashMap map = new HashMap();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("appid", appId);
         map.put("secret", appSecret);
         map.put("js_code", code);
@@ -36,7 +42,7 @@ public class MicroAppUtil {
 
     public String getAccessToken() {
         String url = "https://api.weixin.qq.com/cgi-bin/token";
-        HashMap map = new HashMap() {{
+        HashMap<String, Object> map = new HashMap<>() {{
             put("grant_type", "client_credential");
             put("appid", appId);
             put("secret", appSecret);

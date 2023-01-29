@@ -88,7 +88,8 @@ public class CosUtil {
 
         // 向存储桶中保存文件
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucketPublic, path, file.getInputStream(), meta);
-        putObjectRequest.setStorageClass(StorageClass.Standard); // 标准存储
+        // 标准存储
+        putObjectRequest.setStorageClass(StorageClass.Standard);
         COSClient client = getCosPublicClient();
         PutObjectResult putObjectResult = client.putObject(putObjectRequest);
 
