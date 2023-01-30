@@ -1,10 +1,13 @@
 package com.driving.driver.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.map.MapUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.codingapi.txlcn.tc.annotation.LcnTransaction;
 import com.driving.common.exception.BusinessException;
 import com.driving.common.util.MicroAppUtil;
+import com.driving.driver.controller.form.UpdateDriverAuthForm;
+import com.driving.driver.entity.Driver;
 import com.driving.driver.entity.DriverSettings;
 import com.driving.driver.entity.Wallet;
 import com.driving.driver.mapper.DriverMapper;
@@ -38,7 +41,7 @@ public class IDriverServiceImpl implements IDriverService {
     private WalletMapper walletMapper;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = {Exception.class})
     @LcnTransaction
     public String registerNewDriver(Map<String, Object> map) {
         // 获取临时授权码
@@ -83,5 +86,17 @@ public class IDriverServiceImpl implements IDriverService {
         walletMapper.insert(wallet);
 
         return driverId;
+    }
+
+    @Override
+    @Transactional(rollbackFor = {Exception.class})
+    @LcnTransaction
+    public void updateDriverAuth(UpdateDriverAuthForm form) {
+        Driver driver = new Driver();
+        BeanUtil.copyProperties(form, driver);
+
+        // 1未认证 2已认证 3待认证
+        driver.setRealAuth(3);
+        driverMapper.updateById(driver);
     }
 }

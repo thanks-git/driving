@@ -4,6 +4,7 @@ import cn.hutool.core.convert.Convert;
 import com.codingapi.txlcn.tc.annotation.LcnTransaction;
 import com.driving.common.util.R;
 import com.driving.driver.controller.form.RegisterNewDriverForm;
+import com.driving.driver.controller.form.UpdateDriverAuthForm;
 import com.driving.driver.feign.IDriverOpenFeignService;
 import com.driving.driver.service.IDriverService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +24,17 @@ public class IDriverServiceImpl implements IDriverService {
     private IDriverOpenFeignService driverOpenFeignService;
 
     @Override
-    @Transactional
     @LcnTransaction
+    @Transactional(rollbackFor = {Exception.class})
     public String registerNewDriver(RegisterNewDriverForm registerNewDriverForm) {
         R r = driverOpenFeignService.registerNewDriver(registerNewDriverForm);
         return Convert.toStr(r.get("userId"));
+    }
+
+    @Override
+    @LcnTransaction
+    @Transactional(rollbackFor = {Exception.class})
+    public void updateDriverAuth(UpdateDriverAuthForm updateDriverAuthForm) {
+        driverOpenFeignService.updateDriverAuth(updateDriverAuthForm);
     }
 }

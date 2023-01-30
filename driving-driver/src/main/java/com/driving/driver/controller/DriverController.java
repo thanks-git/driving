@@ -3,13 +3,11 @@ package com.driving.driver.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.driving.common.util.R;
 import com.driving.driver.controller.form.RegisterNewDriverForm;
+import com.driving.driver.controller.form.UpdateDriverAuthForm;
 import com.driving.driver.service.IDriverService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -33,5 +31,13 @@ public class DriverController {
         String driverId = driverService.registerNewDriver(param);
 
         return R.ok().put("userId", driverId);
+    }
+
+    @PutMapping("/updateDriverAuth")
+    @Operation(summary = "更新司机认证信息")
+    public R updateDriverAuth(@RequestBody @Valid UpdateDriverAuthForm form) {
+        driverService.updateDriverAuth(form);
+
+        return R.ok();
     }
 }

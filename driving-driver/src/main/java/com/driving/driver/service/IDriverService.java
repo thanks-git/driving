@@ -1,5 +1,7 @@
 package com.driving.driver.service;
 
+import com.driving.driver.controller.form.UpdateDriverAuthForm;
+
 import java.util.Map;
 
 /**
@@ -8,4 +10,6 @@ import java.util.Map;
  */
 public interface IDriverService {
     String registerNewDriver(Map<String, Object> map);
+
+    void updateDriverAuth(UpdateDriverAuthForm form);
 }
