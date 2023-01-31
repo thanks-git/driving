@@ -1,6 +1,8 @@
 package com.driving.driver.feign;
 
 import com.driving.common.util.R;
+import com.driving.driver.controller.form.CreateDriverFaceModelForm;
+import com.driving.driver.controller.form.DriverLoginForm;
 import com.driving.driver.controller.form.RegisterNewDriverForm;
 import com.driving.driver.controller.form.UpdateDriverAuthForm;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -19,4 +21,13 @@ public interface IDriverOpenFeignService {
 
     @PutMapping("/driver/updateDriverAuth")
     R updateDriverAuth(@RequestBody UpdateDriverAuthForm updateDriverAuthForm);
+
+    @PostMapping("/driver/createDriverFaceModel")
+    R createDriverFaceModel(@RequestBody CreateDriverFaceModelForm createDriverFaceModelForm);
+
+    @PostMapping("/driver/driverFaceAuth")
+    R driverFaceAuth(@RequestBody CreateDriverFaceModelForm createDriverFaceModelForm);
+
+    @PostMapping("/driver/login")
+    R driverLogin(@RequestBody DriverLoginForm driverLoginForm);
 }

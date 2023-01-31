@@ -2,7 +2,10 @@ package com.driving.driver.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.map.MapUtil;
 import com.driving.common.util.R;
+import com.driving.driver.controller.form.CreateDriverFaceModelForm;
+import com.driving.driver.controller.form.DriverLoginForm;
 import com.driving.driver.controller.form.RegisterNewDriverForm;
 import com.driving.driver.controller.form.UpdateDriverAuthForm;
 import com.driving.driver.service.IDriverService;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.HashMap;
 
 /**
  * @author YueLiMin
@@ -44,6 +48,44 @@ public class DriverController {
         updateDriverAuthForm.setDriverId(driverId);
 
         driverService.updateDriverAuth(updateDriverAuthForm);
+
+        return R.ok();
+    }
+
+    @SaCheckLogin
+    @PostMapping("/createDriverFaceModel")
+    @Operation(summary = "创建司机人脸模型")
+    public R createDriverFaceModel(@RequestBody @Valid CreateDriverFaceModelForm createDriverFaceModelForm) {
+        createDriverFaceModelForm.setDriverId(StpUtil.getLoginIdAsLong());
+        return R.ok().put("result", driverService.createDriverFaceModel(createDriverFaceModelForm));
+    }
+
+    @SaCheckLogin
+    @PostMapping("/driverFaceAuth")
+    @Operation(summary = "司机人脸认证")
+    public R driverFaceAuth(@RequestBody @Valid CreateDriverFaceModelForm createDriverFaceModelForm) {
+        createDriverFaceModelForm.setDriverId(StpUtil.getLoginIdAsLong());
+        return R.ok().put("result", driverService.driverFaceAuth(createDriverFaceModelForm));
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "司机登录")
+    public R driverLogin(@RequestBody @Valid DriverLoginForm driverLoginForm) {
+        HashMap<String, Object> map = driverService.driverLogin(driverLoginForm);
+
+        StpUtil.login(MapUtil.getStr(map, "driverId"));
+        String tokenValue = StpUtil.getTokenInfo().getTokenValue();
+
+        map.put("token", tokenValue);
+
+        return R.ok().put("result", map);
+    }
+
+    @SaCheckLogin
+    @DeleteMapping("/logout")
+    @Operation(summary = "司机退出登录")
+    public R driverLogout() {
+        StpUtil.logout();
 
         return R.ok();
     }

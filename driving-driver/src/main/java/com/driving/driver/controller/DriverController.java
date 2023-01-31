@@ -2,6 +2,8 @@ package com.driving.driver.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.driving.common.util.R;
+import com.driving.driver.controller.form.CreateDriverFaceModelForm;
+import com.driving.driver.controller.form.DriverLoginForm;
 import com.driving.driver.controller.form.RegisterNewDriverForm;
 import com.driving.driver.controller.form.UpdateDriverAuthForm;
 import com.driving.driver.service.IDriverService;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -39,5 +42,27 @@ public class DriverController {
         driverService.updateDriverAuth(form);
 
         return R.ok();
+    }
+
+    @PostMapping("/createDriverFaceModel")
+    @Operation(summary = "创建司机人脸模型")
+    public R createDriverFaceModel(@RequestBody @Valid CreateDriverFaceModelForm form) {
+        String result = driverService.createDriverFaceModel(form.getDriverId(), form.getPhoto());
+        return R.ok().put("result", result);
+    }
+
+    @PostMapping("/driverFaceAuth")
+    @Operation(summary = "司机人脸识别")
+    public R driverFaceAuth(@RequestBody @Valid CreateDriverFaceModelForm form) {
+        Boolean auth = driverService.driverFaceAuth(form.getDriverId(), form.getPhoto());
+        return R.ok().put("result", auth);
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "司机登录")
+    public R driverLogin(@RequestBody @Valid DriverLoginForm driverLoginForm) {
+        HashMap<String, Object> map = driverService.driverLogin(driverLoginForm.getCode(), null);
+        // HashMap<String, Object> map = driverService.driverLogin(driverLoginForm.getCode(), driverLoginForm.getPhoneCode());
+        return R.ok().put("result", map);
     }
 }

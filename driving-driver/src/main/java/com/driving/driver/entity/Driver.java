@@ -6,8 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * @author YueLiMin
@@ -58,7 +56,7 @@ public class Driver implements Serializable {
     /**
      * 生日
      */
-    private LocalDate birthday;
+    private String birthday;
 
     /**
      * 电话
@@ -98,7 +96,7 @@ public class Driver implements Serializable {
     /**
      * 身份证有效期
      */
-    private LocalDate idcardExpiration;
+    private String idcardExpiration;
 
     /**
      * 身份证正面
@@ -123,12 +121,12 @@ public class Driver implements Serializable {
     /**
      * 驾驶证有效期
      */
-    private LocalDate drcardExpiration;
+    private String drcardExpiration;
 
     /**
      * 驾驶证初次领证日期
      */
-    private LocalDate drcardIssueDate;
+    private String drcardIssueDate;
 
     /**
      * 驾驶证正面
@@ -168,7 +166,6 @@ public class Driver implements Serializable {
     /**
      * 注册时间
      */
-    private LocalDateTime createTime;
-
+    private String createTime;
 
 }

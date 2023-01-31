@@ -2,7 +2,9 @@ package com.driving.driver.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.codingapi.txlcn.tc.annotation.LcnTransaction;
 import com.driving.common.exception.BusinessException;
 import com.driving.common.util.MicroAppUtil;
@@ -14,7 +16,14 @@ import com.driving.driver.mapper.DriverMapper;
 import com.driving.driver.mapper.DriverSettingsMapper;
 import com.driving.driver.mapper.WalletMapper;
 import com.driving.driver.service.IDriverService;
+import com.tencentcloudapi.common.Credential;
+import com.tencentcloudapi.common.exception.TencentCloudSDKException;
+import com.tencentcloudapi.common.profile.ClientProfile;
+import com.tencentcloudapi.common.profile.HttpProfile;
+import com.tencentcloudapi.iai.v20200303.IaiClient;
+import com.tencentcloudapi.iai.v20200303.models.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,9 +39,19 @@ import java.util.Map;
 @Slf4j
 @Service
 public class IDriverServiceImpl implements IDriverService {
+    @Value("${tencent.cloud.secretId}")
+    private String secretId;
+    @Value("${tencent.cloud.secretKey}")
+    private String secretKey;
+    @Value("${tencent.cloud.ai-face.groupName}")
+    private String groupName;
+    @Value("${tencent.cloud.ai-face.groupId}")
+    private String groupId;
+    @Value("${tencent.cloud.ai-face.region}")
+    private String region;
+
     @Resource
     private MicroAppUtil microAppUtil;
-
     @Resource
     private DriverMapper driverMapper;
     @Resource
@@ -94,9 +113,178 @@ public class IDriverServiceImpl implements IDriverService {
     public void updateDriverAuth(UpdateDriverAuthForm form) {
         Driver driver = new Driver();
         BeanUtil.copyProperties(form, driver);
+        driver.setId(form.getDriverId());
 
         // 1未认证 2已认证 3待认证
         driver.setRealAuth(3);
         driverMapper.updateById(driver);
     }
+
+    @Override
+    @LcnTransaction
+    @Transactional(rollbackFor = {Exception.class})
+    public String createDriverFaceModel(Long driverId, String base64) {
+        log.info("driver id -> {}, base64 -> {}, groupId -> {}", driverId, base64, groupId);
+
+        Driver driver = driverMapper.selectById(driverId);
+        if (driver == null) {
+            return "创建人脸模型失败[用户不存在啊]";
+        }
+
+        String result = "success";
+
+        HttpProfile httpProfile = new HttpProfile();
+        httpProfile.setEndpoint("iai.tencentcloudapi.com");
+
+        ClientProfile clientProfile = new ClientProfile();
+        clientProfile.setHttpProfile(httpProfile);
+
+        Credential cred = new Credential(secretId, secretKey);
+        IaiClient client = new IaiClient(cred, region, clientProfile);
+
+        try {
+            Long gender = "男".equals(driver.getSex()) ? 1L : 2L;
+
+            CreatePersonRequest req = new CreatePersonRequest();
+            req.setGroupId(groupId);
+            req.setPersonId(driverId + "");
+            req.setPersonName(driver.getName());
+            req.setGender(gender);
+            req.setQualityControl(4L);
+            req.setUniquePersonControl(4L);
+            req.setImage(base64);
+            CreatePersonResponse resp = client.CreatePerson(req);
+
+            if (StrUtil.isNotBlank(resp.getFaceId())) {
+                Driver temp = new Driver();
+                temp.setId(driverId);
+                temp.setArchive(true);
+
+                driverMapper.updateById(temp);
+            }
+        } catch (TencentCloudSDKException sdkException) {
+            log.error(sdkException.getMessage());
+            result = sdkException.getMessage();
+        } catch (Exception e) {
+            log.error("创建司机人脸模型失败", e);
+            result = "创建司机人脸模型失败";
+        }
+
+        return result;
+    }
+
+    @Override
+    public Boolean driverFaceAuth(Long driverId, String base64) {
+        boolean isAuth = false;
+
+        Boolean driverFaceRecognition = this.driverFaceRecognition(driverId, base64);
+        Boolean driverInVivoDetection = this.driverInVivoDetection(driverId, base64);
+
+        if (driverFaceRecognition && driverInVivoDetection) {
+            isAuth = true;
+        }
+
+        return isAuth;
+    }
+
+    @Override
+    public HashMap<String, Object> driverLogin(String openid, String phone) {
+        // 永久授权
+        String openId = microAppUtil.getOpenId(openid);
+        Driver driver = driverMapper.selectOne(new LambdaQueryWrapper<Driver>().eq(Driver::getOpenId, openId).ne(Driver::getStatus, 2));
+        if (driver == null) {
+            throw new BusinessException("司机未注册");
+        }
+
+        // 获取手机号-企业版本可以通过小程序获取手机号
+        // String tel = microAppUtil.getTel(phone);
+        // if (!tel.equals(driver.getTel())) {
+        //     throw new BusinessException("登录手机号与注册手机号不一致");
+        // }
+
+        // 是否进行人脸模型的创建 0未创建 1已创建
+        Integer archive = driver.getArchive() ? 1 : 0;
+        // 审核状态 1未认证 2已认证 3待审核
+        Integer realAuth = driver.getRealAuth();
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("archive", archive);
+        map.put("realAuth", realAuth);
+        map.put("driverId", driver.getId());
+
+        return map;
+    }
+
+    /**
+     * 司机人脸识别
+     *
+     * @param driverId 司机id
+     * @param base64   图片编码
+     * @return Boolean
+     */
+    private Boolean driverFaceRecognition(Long driverId, String base64) {
+        Boolean flag = false;
+
+        Credential cred = new Credential(secretId, secretKey);
+
+        HttpProfile httpProfile = new HttpProfile();
+        httpProfile.setEndpoint("iai.tencentcloudapi.com");
+
+        ClientProfile clientProfile = new ClientProfile();
+        clientProfile.setHttpProfile(httpProfile);
+
+        IaiClient client = new IaiClient(cred, region, clientProfile);
+
+        VerifyFaceRequest req = new VerifyFaceRequest();
+        req.setPersonId(driverId + "");
+        req.setQualityControl(4L);
+        req.setImage(base64);
+
+        try {
+            VerifyFaceResponse resp = client.VerifyFace(req);
+            flag = resp.getIsMatch();
+        } catch (TencentCloudSDKException exception) {
+            log.error(exception.getMessage());
+        } catch (Exception e) {
+            log.error("发生了什么事情?", e);
+        }
+
+        return flag;
+    }
+
+    /**
+     * 司机人脸识别
+     *
+     * @param driverId 司机id
+     * @param base64   图片编码
+     * @return Boolean
+     */
+    private Boolean driverInVivoDetection(Long driverId, String base64) {
+        boolean flag = false;
+
+        Credential cred = new Credential(secretId, secretKey);
+
+        HttpProfile httpProfile = new HttpProfile();
+        httpProfile.setEndpoint("iai.tencentcloudapi.com");
+
+        ClientProfile clientProfile = new ClientProfile();
+        clientProfile.setHttpProfile(httpProfile);
+
+        IaiClient client = new IaiClient(cred, region, clientProfile);
+
+        DetectLiveFaceAccurateRequest req = new DetectLiveFaceAccurateRequest();
+        req.setImage(base64);
+
+        try {
+            DetectLiveFaceAccurateResponse resp = client.DetectLiveFaceAccurate(req);
+            flag = resp.getScore() >= 40;
+        } catch (TencentCloudSDKException exception) {
+            log.error(exception.getMessage());
+        } catch (Exception e) {
+            log.error("发生什么事情了?", e);
+        }
+
+        return flag;
+    }
+
 }
