@@ -40,4 +40,12 @@ public interface IDriverService {
      * @return HashMap
      */
     HashMap<String, Object> driverLogin(String openid, String phone);
+
+    /**
+     * 查询司机基本信息
+     *
+     * @param driverId 司机id
+     * @return HashMap
+     */
+    HashMap<String, Object> searchDriverBaseInfo(Long driverId);
 }

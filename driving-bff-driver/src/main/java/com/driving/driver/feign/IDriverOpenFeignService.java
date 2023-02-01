@@ -6,9 +6,7 @@ import com.driving.driver.controller.form.DriverLoginForm;
 import com.driving.driver.controller.form.RegisterNewDriverForm;
 import com.driving.driver.controller.form.UpdateDriverAuthForm;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author YueLiMin
@@ -30,4 +28,7 @@ public interface IDriverOpenFeignService {
 
     @PostMapping("/driver/login")
     R driverLogin(@RequestBody DriverLoginForm driverLoginForm);
+
+    @GetMapping("/driver/searchDriverBaseInfo/{driverId}")
+    R searchDriverBaseInfo(@PathVariable("driverId") Long driverId);
 }

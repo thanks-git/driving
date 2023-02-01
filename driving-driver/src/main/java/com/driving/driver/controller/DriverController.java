@@ -2,10 +2,7 @@ package com.driving.driver.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.driving.common.util.R;
-import com.driving.driver.controller.form.CreateDriverFaceModelForm;
-import com.driving.driver.controller.form.DriverLoginForm;
-import com.driving.driver.controller.form.RegisterNewDriverForm;
-import com.driving.driver.controller.form.UpdateDriverAuthForm;
+import com.driving.driver.controller.form.*;
 import com.driving.driver.service.IDriverService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -64,5 +61,11 @@ public class DriverController {
         HashMap<String, Object> map = driverService.driverLogin(driverLoginForm.getCode(), null);
         // HashMap<String, Object> map = driverService.driverLogin(driverLoginForm.getCode(), driverLoginForm.getPhoneCode());
         return R.ok().put("result", map);
+    }
+
+    @GetMapping("/searchDriverBaseInfo/{driverId}")
+    @Operation(summary = "查询司机基本信息")
+    public R searchDriverBaseInfo(@PathVariable("driverId") Long driverId) {
+        return R.ok().put("result", driverService.searchDriverBaseInfo(driverId));
     }
 }

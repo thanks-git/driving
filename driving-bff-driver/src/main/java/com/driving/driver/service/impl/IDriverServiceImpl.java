@@ -56,8 +56,12 @@ public class IDriverServiceImpl implements IDriverService {
 
     @Override
     public HashMap<String, Object> driverLogin(DriverLoginForm driverLoginForm) {
-        HashMap<String, Object> map = (HashMap<String, Object>) driverOpenFeignService.driverLogin(driverLoginForm).get("result");
 
-        return map;
+        return (HashMap<String, Object>) driverOpenFeignService.driverLogin(driverLoginForm).get("result");
+    }
+
+    @Override
+    public HashMap<String, Object> searchDriverBaseInfo(Long driverId) {
+        return (HashMap<String, Object>) driverOpenFeignService.searchDriverBaseInfo(driverId).get("result");
     }
 }

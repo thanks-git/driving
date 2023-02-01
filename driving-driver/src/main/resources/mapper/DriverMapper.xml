@@ -3,18 +3,20 @@
 <mapper namespace="com.driving.driver.mapper.DriverMapper">
 
     <select id="searchDriverIdByOpenId" resultType="java.lang.String" parameterType="java.lang.String">
-        select cast(`id` as char) as `id` from tb_driver where `open_id` = #{openId}
+        select cast(`id` as char) as `id`
+        from tb_driver
+        where `open_id` = #{openId}
     </select>
 
     <insert id="registerNewDriver" parameterType="java.util.Map">
         insert into `tb_driver`
-        set `open_id` = #{openId},
-            `nickname` = #{nickname},
-            `photo` = #{photo},
+        set `open_id`   = #{openId},
+            `nickname`  = #{nickname},
+            `photo`     = #{photo},
             `real_auth` = 1,
-            `summary` = '{"level":0,"totalOrder":0,"weekOrder":0,"weekComment":0,"appeal":0}',
-            `archive` = false,
-            `status` = 1
+            `summary`   = '{"level":0,"totalOrder":0,"weekOrder":0,"weekComment":0,"appeal":0}',
+            `archive`   = false,
+            `status`    = 1
     </insert>
 
     <select id="hasDriver" resultType="java.lang.Long" parameterType="java.util.Map">
@@ -26,4 +28,23 @@
             and `id` = #{driverId}
         </if>
     </select>
+
+<select id="searchDriverBaseInfo" parameterType="java.lang.Long" resultType="HashMap">
+    select d.`open_id`               as openId,
+           d.`name`,
+           d.`nickname`,
+           d.`sex`,
+           d.`photo`,
+           d.`tel`,
+           d.`email`,
+           d.`pid`,
+           d.`real_auth`             as realAuth,
+           d.`summary`,
+           d.`status`,
+           cast(w.`balance` as char) as balance,
+           d.`create_time`           as createTime
+    from tb_driver d
+             join tb_wallet w on d.`id` = w.`driver_id`
+    where d.`id` = #{driverId};
+</select>
 </mapper>

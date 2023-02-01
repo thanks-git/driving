@@ -89,4 +89,11 @@ public class DriverController {
 
         return R.ok();
     }
+
+    @SaCheckLogin
+    @GetMapping("/searchDriverBaseInfo")
+    @Operation(summary = "查询司机基本信息")
+    public R searchDriverBaseInfo() {
+        return R.ok().put("result", driverService.searchDriverBaseInfo(StpUtil.getLoginIdAsLong()));
+    }
 }

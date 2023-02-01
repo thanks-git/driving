@@ -3,6 +3,7 @@ package com.driving.driver.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.codingapi.txlcn.tc.annotation.LcnTransaction;
@@ -212,6 +213,15 @@ public class IDriverServiceImpl implements IDriverService {
         map.put("realAuth", realAuth);
         map.put("driverId", driver.getId());
 
+        return map;
+    }
+
+    @Override
+    public HashMap<String, Object> searchDriverBaseInfo(Long driverId) {
+        HashMap<String, Object> map = driverMapper.searchDriverBaseInfo(driverId);
+        // summary 属性值为一个json对象
+        cn.hutool.json.JSONObject jsonObject = JSONUtil.parseObj(MapUtil.getStr(map, "summary"));
+        map.replace("summary", jsonObject);
         return map;
     }
 

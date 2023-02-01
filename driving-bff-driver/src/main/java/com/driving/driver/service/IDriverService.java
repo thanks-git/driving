@@ -21,4 +21,6 @@ public interface IDriverService {
     Boolean driverFaceAuth(CreateDriverFaceModelForm createDriverFaceModelForm);
 
     HashMap<String, Object> driverLogin(DriverLoginForm driverLoginForm);
+
+    HashMap<String, Object> searchDriverBaseInfo(Long driverId);
 }
