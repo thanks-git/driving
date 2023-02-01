@@ -8,7 +8,7 @@ import com.driving.driver.controller.form.CreateDriverFaceModelForm;
 import com.driving.driver.controller.form.DriverLoginForm;
 import com.driving.driver.controller.form.RegisterNewDriverForm;
 import com.driving.driver.controller.form.UpdateDriverAuthForm;
-import com.driving.driver.feign.IDriverOpenFeignService;
+import com.driving.driver.agent.DriverServiceOpenFeignClient;
 import com.driving.driver.service.IDriverService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ import java.util.HashMap;
 @Service
 public class IDriverServiceImpl implements IDriverService {
     @Resource
-    private IDriverOpenFeignService driverOpenFeignService;
+    private DriverServiceOpenFeignClient driverOpenFeignService;
 
     @Override
     @LcnTransaction
