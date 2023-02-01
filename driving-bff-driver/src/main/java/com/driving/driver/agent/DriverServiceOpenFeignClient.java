@@ -1,4 +1,4 @@
-package com.driving.driver.feign;
+package com.driving.driver.agent;
 
 import com.driving.common.util.R;
 import com.driving.driver.controller.form.CreateDriverFaceModelForm;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  * @version 1.0.0
  */
 @FeignClient(value = "driving-driver")
-public interface IDriverOpenFeignService {
+public interface DriverServiceOpenFeignClient {
     @PostMapping("/driver/registerNewDriver")
     R registerNewDriver(@RequestBody RegisterNewDriverForm registerNewDriverForm);
 
