@@ -19,10 +19,24 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/driver")
-@Tag(name = "DriverController", description = "司机模块web接口")
+@Tag(name = "DriverController", description = "司机模块-司机web接口")
 public class DriverController {
     @Resource
     private IDriverService driverService;
+
+    @PutMapping("/updateDriverRealAuth/{driverId}/{realAuth}")
+    @Operation(summary = "更新司机认证状态")
+    public R updateDriverRealAuth(@PathVariable("driverId") Long driverId, @PathVariable("realAuth") Integer realAuth) {
+        driverService.updateDriverRealAuth(driverId, realAuth);
+
+        return R.ok();
+    }
+
+    @GetMapping("/searchDriverRealSummary/{driverId}")
+    @Operation(summary = "查询司机认证摘要信息(MIS审核)")
+    public R searchDriverRealSummary(@PathVariable("driverId") Long driverId) {
+        return R.ok().put("result", driverService.searchDriverRealSummary(driverId));
+    }
 
     @PostMapping("/registerNewDriver")
     @Operation(summary = "司机注册")
@@ -73,5 +87,17 @@ public class DriverController {
     @Operation(summary = "查询司机认证信息")
     public R searchDriverAuthInformation(@PathVariable("driverId") Long driverId) {
         return R.ok().put("result", driverService.searchDriverAuthInformation(driverId));
+    }
+
+    @PostMapping("/searchDriverByPage")
+    @Operation(summary = "查询司机分页记录")
+    public R searchDriverByPage(@RequestBody @Valid DriverPagingForm form) {
+        HashMap<String, Object> param = (HashMap<String, Object>) BeanUtil.beanToMap(form);
+        int page = form.getPage();
+        int length = form.getLength();
+        int start = (page - 1) * length;
+        param.put("start", start);
+
+        return R.ok().put("result", driverService.searchDriverByPage(param));
     }
 }

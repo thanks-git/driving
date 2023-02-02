@@ -74,4 +74,78 @@
         FROM tb_driver
         WHERE id = #{driverId}
     </select>
+
+    <select id="searchDriverByPage" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        SELECT CAST(id AS CHAR) AS id,
+        IFNULL(`name`,"") AS `name`,
+        IFNULL(sex,"") AS sex,
+        IFNULL(pid,"") AS pid,
+        IFNULL(tel,"") AS tel,
+        IFNULL(contact_name,"") AS contactName,
+        IFNULL(contact_tel,"") AS contactTel,
+        IFNULL(real_auth,"") AS realAuth,
+        `status`,
+        DATE_FORMAT(create_time, '%Y-%m-%d') AS createTime
+        FROM tb_driver
+        WHERE 1=1
+        <if test="name!=null">
+            AND `name` = #{name}
+        </if>
+        <if test="tel!=null">
+            AND tel = #{tel}
+        </if>
+        <if test="pid!=null">
+            AND pid = #{pid}
+        </if>
+        <if test="sex!=null">
+            AND sex = #{sex}
+        </if>
+        <if test="realAuth!=null">
+            AND `real_auth` = #{realAuth}
+        </if>
+        <if test="status!=null">
+            AND `status` = #{status}
+        </if>
+        LIMIT #{start}, #{length}
+    </select>
+
+    <select id="searchDriverCount" parameterType="java.util.HashMap" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM tb_driver
+        WHERE 1=1
+        <if test="name!=null">
+            AND `name` = #{name}
+        </if>
+        <if test="tel!=null">
+            AND tel = #{tel}
+        </if>
+        <if test="pid!=null">
+            AND pid = #{pid}
+        </if>
+        <if test="sex!=null">
+            AND sex = #{sex}
+        </if>
+        <if test="realAuth!=null">
+            AND `real_auth` = #{realAuth}
+        </if>
+        <if test="status!=null">
+            AND `status` = #{status}
+        </if>
+    </select>
+
+    <select id="searchDriverRealSummary" resultType="java.util.HashMap" parameterType="java.lang.Long">
+        SELECT timestampdiff(year, drcard_issue_date, now()) AS `year`,
+               birthday,
+               email,
+               mail_address                                  AS mailAddress,
+               idcard_address                                AS idcardAddress,
+               idcard_front                                  AS idcardFront,
+               idcard_back                                   AS idcardBack,
+               idcard_holding                                AS idcardHolding,
+               drcard_front                                  AS drcardFront,
+               drcard_back                                   AS drcardBack,
+               drcard_holding                                AS drcardHolding
+        FROM tb_driver
+        WHERE id = #{driverId}
+    </select>
 </mapper>

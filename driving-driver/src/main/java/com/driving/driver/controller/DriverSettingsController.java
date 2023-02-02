@@ -21,13 +21,13 @@ public class DriverSettingsController {
     private IDriverSettingsService driverSettingsService;
 
     @GetMapping("/searchDriverSettings/{driverId}")
-    @Operation(description = "查询司机配置信息")
+    @Operation(summary = "查询司机配置信息")
     public R searchDriverSettings(@PathVariable("driverId") Long driverId) {
         return R.ok().put("result", driverSettingsService.searchDriverSettings(driverId));
     }
 
     @PutMapping("/updateDriverSettings/{driverId}")
-    @Operation(description = "修改司机配置信息")
+    @Operation(summary = "修改司机配置信息")
     public R updateDriverSettings(@PathVariable("driverId") Long driverId, @RequestBody UpdateDriverSettingsForm form) {
         driverSettingsService.updateDriverSettings(driverId, form);
         return R.ok();

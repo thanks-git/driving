@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.driving.driver.entity.Driver;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,4 +52,28 @@ public interface DriverMapper extends BaseMapper<Driver> {
      * @return HashMap
      */
     HashMap<String, Object> searchDriverAuthInformation(Long driverId);
+
+    /**
+     * 司机分页条件查询
+     *
+     * @param hashMap 查询条件
+     * @return List
+     */
+    ArrayList<HashMap<String, Object>> searchDriverByPage(HashMap<String, Object> hashMap);
+
+    /**
+     * 查询司机记录数
+     *
+     * @param hashMap 查询条件
+     * @return HashMap
+     */
+    Long searchDriverCount(HashMap<String, Object> hashMap);
+
+    /**
+     * 查询司机认证信息
+     *
+     * @param driverId 司机id
+     * @return HashMap
+     */
+    HashMap<String, Object> searchDriverRealSummary(Long driverId);
 }

@@ -20,7 +20,7 @@ import java.util.HashMap;
  */
 @RestController
 @RequestMapping("/driver")
-@Tag(name = "DriverController", description = "司机bff模块web接口")
+@Tag(name = "DriverController", description = "司机bff模块-司机web接口")
 public class DriverController {
     @Resource
     private IDriverService driverService;

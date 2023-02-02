@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.codingapi.txlcn.tc.annotation.LcnTransaction;
 import com.driving.common.exception.BusinessException;
 import com.driving.common.util.MicroAppUtil;
+import com.driving.common.util.PageUtils;
 import com.driving.driver.controller.form.UpdateDriverAuthForm;
 import com.driving.driver.entity.Driver;
 import com.driving.driver.entity.DriverSettings;
@@ -30,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,6 +61,18 @@ public class DriverServiceImpl implements IDriverService {
     private DriverSettingsMapper driverSettingsMapper;
     @Resource
     private WalletMapper walletMapper;
+
+    @Override
+    @LcnTransaction
+    @Transactional(rollbackFor = {Exception.class})
+    public void updateDriverRealAuth(Long driverId, Integer realAuth) {
+        Driver driver = new Driver();
+        driver.setRealAuth(realAuth);
+
+        driverMapper.update(driver, new LambdaQueryWrapper<Driver>().eq(Driver::getId, driverId));
+
+        // todo 消息通知系统通知司机认证状态
+    }
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
@@ -228,6 +242,29 @@ public class DriverServiceImpl implements IDriverService {
     @Override
     public HashMap<String, Object> searchDriverAuthInformation(Long driverId) {
         return driverMapper.searchDriverAuthInformation(driverId);
+    }
+
+    @Override
+    public PageUtils searchDriverByPage(HashMap<String, Object> hashMap) {
+        ArrayList<HashMap<String, Object>> result = null;
+
+        Long driverCount = driverMapper.searchDriverCount(hashMap);
+        if (driverCount == null) {
+            driverCount = 0L;
+            result = new ArrayList<>();
+        } else {
+            result = driverMapper.searchDriverByPage(hashMap);
+        }
+
+        int start = (Integer) hashMap.get("start");
+        int end = (Integer) hashMap.get("length");
+
+        return new PageUtils(result, driverCount, start, end);
+    }
+
+    @Override
+    public HashMap<String, Object> searchDriverRealSummary(Long driverId) {
+        return driverMapper.searchDriverRealSummary(driverId);
     }
 
     /**

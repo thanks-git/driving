@@ -22,7 +22,7 @@ import java.util.HashMap;
 @Slf4j
 @RestController
 @RequestMapping("/tencent-cloud/cos")
-@Tag(name = "TencentCloudCosController", description = "腾讯云对象存储服务web接口")
+@Tag(name = "TencentCloudCosController", description = "司机bff模块-腾讯云web接口")
 public class TencentCloudCosController {
     @Resource
     private CosUtil cosUtil;

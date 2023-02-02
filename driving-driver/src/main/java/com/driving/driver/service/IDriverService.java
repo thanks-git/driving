@@ -1,5 +1,6 @@
 package com.driving.driver.service;
 
+import com.driving.common.util.PageUtils;
 import com.driving.driver.controller.form.UpdateDriverAuthForm;
 
 import java.util.HashMap;
@@ -10,6 +11,14 @@ import java.util.Map;
  * @version 1.0.0
  */
 public interface IDriverService {
+    /**
+     * 更新司机认证状态
+     *
+     * @param driverId 司机id
+     * @param realAuth 认证状态
+     */
+    void updateDriverRealAuth(Long driverId, Integer realAuth);
+
     String registerNewDriver(Map<String, Object> map);
 
     void updateDriverAuth(UpdateDriverAuthForm form);
@@ -56,4 +65,20 @@ public interface IDriverService {
      * @return HashMap
      */
     HashMap<String, Object> searchDriverAuthInformation(Long driverId);
+
+    /**
+     * 司机分页
+     *
+     * @param hashMap 条件参数
+     * @return PageUtils
+     */
+    PageUtils searchDriverByPage(HashMap<String, Object> hashMap);
+
+    /**
+     * 查询司机认证信息摘要
+     *
+     * @param driverId 司机id
+     * @return HashMap
+     */
+    HashMap<String, Object> searchDriverRealSummary(Long driverId);
 }
