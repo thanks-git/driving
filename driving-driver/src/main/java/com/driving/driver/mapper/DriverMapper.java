@@ -43,4 +43,12 @@ public interface DriverMapper extends BaseMapper<Driver> {
      * @return HashMap
      */
     HashMap<String, Object> searchDriverBaseInfo(Long driverId);
+
+    /**
+     * 查询司机认证信息
+     *
+     * @param driverId 司机Id
+     * @return HashMap
+     */
+    HashMap<String, Object> searchDriverAuthInformation(Long driverId);
 }

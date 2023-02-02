@@ -3,6 +3,7 @@ package com.driving.driver.service.impl;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.map.MapUtil;
 import com.codingapi.txlcn.tc.annotation.LcnTransaction;
+import com.driving.common.util.CosUtil;
 import com.driving.common.util.R;
 import com.driving.driver.agent.OrderServiceOpenFeignClient;
 import com.driving.driver.controller.form.*;
@@ -26,6 +27,8 @@ public class DriverServiceImpl implements IDriverService {
     private DriverServiceOpenFeignClient driverServiceOpenFeignClient;
     @Resource
     private OrderServiceOpenFeignClient orderServiceOpenFeignClient;
+    @Resource
+    private CosUtil cosUtil;
 
     @Override
     @LcnTransaction
@@ -82,5 +85,34 @@ public class DriverServiceImpl implements IDriverService {
     @Transactional(rollbackFor = Exception.class)
     public void updateDriverSettings(Long driverId, UpdateDriverSettingsForm form) {
         driverServiceOpenFeignClient.updateDriverSettings(driverId, form);
+    }
+
+    @Override
+    public HashMap<String, Object> searchDriverAuthInformation(Long driverId) {
+        HashMap<String, Object> map = (HashMap<String, Object>) driverServiceOpenFeignClient.searchDriverAuthInformation(driverId).get("result");
+
+        String idcardFront = MapUtil.getStr(map, "idcardFront");
+        String idcardBack = MapUtil.getStr(map, "idcardBack");
+        String idcardHolding = MapUtil.getStr(map, "idcardHolding");
+        String drcardFront = MapUtil.getStr(map, "drcardFront");
+        String drcardBack = MapUtil.getStr(map, "drcardBack");
+        String drcardHolding = MapUtil.getStr(map, "drcardHolding");
+
+        // 生成图片临时访问地址(有效时间五分钟)
+        String idcardFrontUrl = idcardFront.length() > 0 ? cosUtil.getPrivateFileUrl(idcardFront) : "";
+        String idcardBackUrl = idcardBack.length() > 0 ? cosUtil.getPrivateFileUrl(idcardBack) : "";
+        String idcardHoldingUrl = idcardHolding.length() > 0 ? cosUtil.getPrivateFileUrl(idcardHolding) : "";
+        String drcardFrontUrl = drcardFront.length() > 0 ? cosUtil.getPrivateFileUrl(drcardFront) : "";
+        String drcardBackUrl = drcardBack.length() > 0 ? cosUtil.getPrivateFileUrl(drcardBack) : "";
+        String drcardHoldingUrl = drcardHolding.length() > 0 ? cosUtil.getPrivateFileUrl(drcardHolding) : "";
+
+        map.put("idcardFrontUrl", idcardFrontUrl);
+        map.put("idcardBackUrl", idcardBackUrl);
+        map.put("idcardHoldingUrl", idcardHoldingUrl);
+        map.put("drcardFrontUrl", drcardFrontUrl);
+        map.put("drcardBackUrl", drcardBackUrl);
+        map.put("drcardHoldingUrl", drcardHoldingUrl);
+
+        return map;
     }
 }

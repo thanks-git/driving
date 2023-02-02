@@ -29,22 +29,49 @@
         </if>
     </select>
 
-<select id="searchDriverBaseInfo" parameterType="java.lang.Long" resultType="HashMap">
-    select d.`open_id`               as openId,
-           d.`name`,
-           d.`nickname`,
-           d.`sex`,
-           d.`photo`,
-           d.`tel`,
-           d.`email`,
-           d.`pid`,
-           d.`real_auth`             as realAuth,
-           d.`summary`,
-           d.`status`,
-           cast(w.`balance` as char) as balance,
-           d.`create_time`           as createTime
-    from tb_driver d
-             join tb_wallet w on d.`id` = w.`driver_id`
-    where d.`id` = #{driverId};
-</select>
+    <select id="searchDriverBaseInfo" parameterType="java.lang.Long" resultType="HashMap">
+        select d.`open_id`               as openId,
+               d.`name`,
+               d.`nickname`,
+               d.`sex`,
+               d.`photo`,
+               d.`tel`,
+               d.`email`,
+               d.`pid`,
+               d.`real_auth`             as realAuth,
+               d.`summary`,
+               d.`status`,
+               cast(w.`balance` as char) as balance,
+               d.`create_time`           as createTime
+        from tb_driver d
+                 join tb_wallet w on d.`id` = w.`driver_id`
+        where d.`id` = #{driverId};
+    </select>
+
+    <select id="searchDriverAuthInformation" resultType="java.util.HashMap" parameterType="java.lang.Long">
+        # IFNULL() 当其中的指定属性为null时, 给他指定一个默认值
+        SELECT IFNULL(`name`, '')            AS `name`,
+               IFNULL(sex, '')               AS sex,
+               IFNULL(pid, '')               AS pid,
+               IFNULL(birthday, '')          AS birthday,
+               IFNULL(tel, '')               AS tel,
+               IFNULL(mail_address, '')      AS mailAddress,
+               IFNULL(contact_name, '')      AS contactName,
+               IFNULL(contact_tel, '')       AS contactTel,
+               IFNULL(email, '')             AS email,
+               IFNULL(real_auth, '')         AS realAuth,
+               IFNULL(idcard_address, '')    AS idcardAddress,
+               IFNULL(idcard_expiration, '') AS idcardExpiration,
+               IFNULL(idcard_front, '')      AS idcardFront,
+               IFNULL(idcard_back, '')       AS idcardBack,
+               IFNULL(idcard_holding, '')    AS idcardHolding,
+               IFNULL(drcard_type, '')       AS drcardType,
+               IFNULL(drcard_expiration, '') AS drcardExpiration,
+               IFNULL(drcard_issue_date, '') AS drcardIssueDate,
+               IFNULL(drcard_front, '')      AS drcardFront,
+               IFNULL(drcard_back, '')       AS drcardBack,
+               IFNULL(drcard_holding, '')    AS drcardHolding
+        FROM tb_driver
+        WHERE id = #{driverId}
+    </select>
 </mapper>

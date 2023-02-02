@@ -34,4 +34,7 @@ public interface DriverServiceOpenFeignClient {
 
     @PutMapping("/driver-settings/updateDriverSettings/{driverId}")
     R updateDriverSettings(@PathVariable("driverId") Long driverId, @RequestBody UpdateDriverSettingsForm form);
+
+    @GetMapping("/driver/searchDriverAuthInformation/{driverId}")
+    R searchDriverAuthInformation(@PathVariable("driverId") Long driverId);
 }

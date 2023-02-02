@@ -36,4 +36,12 @@ public interface IDriverService {
      * @param form     司机设置实体类
      */
     void updateDriverSettings(Long driverId, UpdateDriverSettingsForm form);
+
+    /**
+     * 查询司机认证信息
+     *
+     * @param driverId 司机id
+     * @return HashMap
+     */
+    HashMap<String, Object> searchDriverAuthInformation(Long driverId);
 }

@@ -225,6 +225,11 @@ public class DriverServiceImpl implements IDriverService {
         return map;
     }
 
+    @Override
+    public HashMap<String, Object> searchDriverAuthInformation(Long driverId) {
+        return driverMapper.searchDriverAuthInformation(driverId);
+    }
+
     /**
      * 司机人脸识别
      *

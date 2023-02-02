@@ -68,4 +68,10 @@ public class DriverController {
     public R searchDriverBaseInfo(@PathVariable("driverId") Long driverId) {
         return R.ok().put("result", driverService.searchDriverBaseInfo(driverId));
     }
+
+    @GetMapping("/searchDriverAuthInformation/{driverId}")
+    @Operation(summary = "查询司机认证信息")
+    public R searchDriverAuthInformation(@PathVariable("driverId") Long driverId) {
+        return R.ok().put("result", driverService.searchDriverAuthInformation(driverId));
+    }
 }
