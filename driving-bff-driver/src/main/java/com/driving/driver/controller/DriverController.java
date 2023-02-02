@@ -4,10 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.map.MapUtil;
 import com.driving.common.util.R;
-import com.driving.driver.controller.form.CreateDriverFaceModelForm;
-import com.driving.driver.controller.form.DriverLoginForm;
-import com.driving.driver.controller.form.RegisterNewDriverForm;
-import com.driving.driver.controller.form.UpdateDriverAuthForm;
+import com.driving.driver.controller.form.*;
 import com.driving.driver.service.IDriverService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -95,5 +92,21 @@ public class DriverController {
     @Operation(summary = "查询司机基本信息")
     public R searchDriverBaseInfo() {
         return R.ok().put("result", driverService.searchDriverBaseInfo(StpUtil.getLoginIdAsLong()));
+    }
+
+    @SaCheckLogin
+    @GetMapping("/searchWorkbenchData")
+    @Operation(summary = "查询工作台数据")
+    public R searchWorkbenchData() {
+        return R.ok().put("result", driverService.searchWorkbenchData(StpUtil.getLoginIdAsLong()));
+    }
+
+    @SaCheckLogin
+    @PutMapping("/updateDriverSettings")
+    @Operation(summary = "修改司机配置信息")
+    public R updateDriverSettings(@RequestBody UpdateDriverSettingsForm form) {
+        driverService.updateDriverSettings(StpUtil.getLoginIdAsLong(), form);
+
+        return R.ok();
     }
 }

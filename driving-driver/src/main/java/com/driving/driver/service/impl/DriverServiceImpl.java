@@ -39,7 +39,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class IDriverServiceImpl implements IDriverService {
+public class DriverServiceImpl implements IDriverService {
     @Value("${tencent.cloud.secretId}")
     private String secretId;
     @Value("${tencent.cloud.secretKey}")

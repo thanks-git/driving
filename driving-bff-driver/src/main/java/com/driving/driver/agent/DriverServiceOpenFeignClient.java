@@ -1,10 +1,7 @@
 package com.driving.driver.agent;
 
 import com.driving.common.util.R;
-import com.driving.driver.controller.form.CreateDriverFaceModelForm;
-import com.driving.driver.controller.form.DriverLoginForm;
-import com.driving.driver.controller.form.RegisterNewDriverForm;
-import com.driving.driver.controller.form.UpdateDriverAuthForm;
+import com.driving.driver.controller.form.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,4 +28,10 @@ public interface DriverServiceOpenFeignClient {
 
     @GetMapping("/driver/searchDriverBaseInfo/{driverId}")
     R searchDriverBaseInfo(@PathVariable("driverId") Long driverId);
+
+    @GetMapping("/driver-settings/searchDriverSettings/{driverId}")
+    R searchDriverSettings(@PathVariable("driverId") Long driverId);
+
+    @PutMapping("/driver-settings/updateDriverSettings/{driverId}")
+    R updateDriverSettings(@PathVariable("driverId") Long driverId, @RequestBody UpdateDriverSettingsForm form);
 }
