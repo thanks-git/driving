@@ -46,11 +46,11 @@ public class DriverServiceImpl implements IDriverService {
     private String secretId;
     @Value("${tencent.cloud.secretKey}")
     private String secretKey;
-    @Value("${tencent.cloud.ai-face.groupName}")
+    @Value("${tencent.ai-face.groupName}")
     private String groupName;
-    @Value("${tencent.cloud.ai-face.groupId}")
+    @Value("${tencent.ai-face.groupId}")
     private String groupId;
-    @Value("${tencent.cloud.ai-face.region}")
+    @Value("${tencent.ai-face.region}")
     private String region;
 
     @Resource
