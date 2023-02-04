@@ -11,11 +11,11 @@ public class CoordinateTransformUtils {
     private static final double ee = 0.00669342162296594323;
 
     /**
-     * 百度坐标（BD09）转 GCJ02
+     * 百度坐标(BD09)转 GCJ02
      *
      * @param lng 百度经度
      * @param lat 百度纬度
-     * @return GCJ02 坐标：[经度，纬度]
+     * @return GCJ02 坐标: [经度, 纬度]
      */
     public static double[] transformBD09ToGCJ02(double lng, double lat) {
         double x = lng - 0.0065;
@@ -32,7 +32,7 @@ public class CoordinateTransformUtils {
      *
      * @param lng GCJ02 经度
      * @param lat GCJ02 纬度
-     * @return 百度坐标：[经度，纬度]
+     * @return 百度坐标: [经度, 纬度]
      */
     public static double[] transformGCJ02ToBD09(double lng, double lat) {
         double z = Math.sqrt(lng * lng + lat * lat) + 0.00002 * Math.sin(lat * x_PI);
@@ -47,7 +47,7 @@ public class CoordinateTransformUtils {
      *
      * @param lng 经度
      * @param lat 纬度
-     * @return WGS84坐标：[经度，纬度]
+     * @return WGS84坐标: [经度, 纬度]
      */
     public static double[] transformGCJ02ToWGS84(double lng, double lat) {
         if (outOfChina(lng, lat)) {
@@ -72,7 +72,7 @@ public class CoordinateTransformUtils {
      *
      * @param lng 经度
      * @param lat 纬度
-     * @return GCJ02 坐标：[经度，纬度]
+     * @return GCJ02 坐标: [经度, 纬度]
      */
     public static double[] transformWGS84ToGCJ02(double lng, double lat) {
         if (outOfChina(lng, lat)) {
@@ -97,7 +97,7 @@ public class CoordinateTransformUtils {
      *
      * @param lng 经度
      * @param lat 纬度
-     * @return WGS84 坐标：[经度，纬度]
+     * @return WGS84 坐标: [经度, 纬度]
      */
     public static double[] transformBD09ToWGS84(double lng, double lat) {
         double[] lngLat = transformBD09ToGCJ02(lng, lat);
@@ -110,7 +110,7 @@ public class CoordinateTransformUtils {
      *
      * @param lng 经度
      * @param lat 纬度
-     * @return BD09 坐标：[经度，纬度]
+     * @return BD09 坐标: [经度, 纬度]
      */
     public static double[] transformWGS84ToBD09(double lng, double lat) {
         double[] lngLat = transformWGS84ToGCJ02(lng, lat);
@@ -126,8 +126,6 @@ public class CoordinateTransformUtils {
         return ret;
     }
 
-    ;
-
     private static double transformLng(double lng, double lat) {
         double ret = 300.0 + lng + 2.0 * lat + 0.1 * lng * lng + 0.1 * lng * lat + 0.1 * Math.sqrt(Math.abs(lng));
         ret += (20.0 * Math.sin(6.0 * lng * PI) + 20.0 * Math.sin(2.0 * lng * PI)) * 2.0 / 3.0;
@@ -135,8 +133,6 @@ public class CoordinateTransformUtils {
         ret += (150.0 * Math.sin(lng / 12.0 * PI) + 300.0 * Math.sin(lng / 30.0 * PI)) * 2.0 / 3.0;
         return ret;
     }
-
-    ;
 
     /**
      * 判断坐标是否不在国内
