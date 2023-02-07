@@ -95,16 +95,16 @@ public class LocationServiceImpl implements ILocationService {
                 RedisGeoCommands.GeoLocation<String> content = result.getContent();
                 String driverId = content.getName();
                 double dist = result.getDistance().getValue();
-                if (Boolean.FALSE.equals(redisTemplate.hasKey("driver_online#" + driverId))) {
+                if (Boolean.FALSE.equals(redisTemplate.hasKey("driver_online:" + driverId))) {
                     continue;
                 }
 
-                Object obj = redisTemplate.opsForValue().get("driver_online#" + driverId);
+                Object obj = redisTemplate.opsForValue().get("driver_online:" + driverId);
                 if (obj == null) {
                     continue;
                 }
                 String value = obj.toString();
-                String[] temp = value.split("#");
+                String[] temp = value.split(":");
                 int rangeDistance = Integer.parseInt(temp[0]);
                 int orderDistance = Integer.parseInt(temp[1]);
                 String orientation = temp[2];
