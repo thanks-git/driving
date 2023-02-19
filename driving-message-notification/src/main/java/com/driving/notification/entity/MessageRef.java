@@ -7,6 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 
+/**
+ * @author YueLiMin
+ */
 @Data
 @Document(collection = "message_ref")
 public class MessageRef implements Serializable {

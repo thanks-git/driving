@@ -7,6 +7,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.ThreadPoolExecutor;
 
+/**
+ * @author YueLiMin
+ */
 @Configuration
 public class ThreadPoolConfig {
     @Bean("AsyncTaskExecutor")
@@ -21,7 +24,7 @@ public class ThreadPoolConfig {
         executor.setQueueCapacity(32);
         // 设置线程活跃时间（秒）
         executor.setKeepAliveSeconds(60);
-        // 设置默认线程名称
+        // 设置默认线程名称前缀
         executor.setThreadNamePrefix("task-");
         // 设置拒绝策略
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());

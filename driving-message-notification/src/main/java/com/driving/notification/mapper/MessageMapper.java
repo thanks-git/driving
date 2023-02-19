@@ -19,6 +19,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * @author YueLiMin
+ */
 @Repository
 public class MessageMapper {
     @Autowired

@@ -8,6 +8,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author YueLiMin
+ */
 @Data
 @Document(collection = "message")
 public class Message implements Serializable {
@@ -22,7 +25,8 @@ public class Message implements Serializable {
 
     private String senderIdentity;
 
-    private String senderPhoto = "http://static-1258386385.cos.ap-beijing.myqcloud.com/img/System.jpg";
+    // https://img.bosszhipin.com/beijin/upload/avatar/20220423/607f1f3d68754fd0a64ade57d3410fcf25d0375444ddb22eaaa66a784d8588a7a4352d5b90d74a2a_s.png
+    private String senderPhoto;
 
     private String senderName;
 
